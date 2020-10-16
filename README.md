@@ -4,16 +4,23 @@ I decided to rewrite my game engine because my old one is a bit too messy. It is
 
 This engine uses SDL, Glew, and stb libraries. You can get them here:
 
-SDL: https://www.libsdl.org/download-2.0.php
+<ul>
+  <li>SDL: https://www.libsdl.org/download-2.0.php</li>
+  <li>SDL_Image: https://www.libsdl.org/projects/SDL_image/</li>
+  <li>SDL_TTF: https://www.libsdl.org/projects/SDL_ttf/</li>
+  <li>SDL_Mixer: https://www.libsdl.org/projects/SDL_mixer/</li>
+  <li>SDL_Net: https://www.libsdl.org/projects/SDL_net/</li>
+  <li>Glew: http://glew.sourceforge.net/</li>
+  <li>stb: https://github.com/nothings/stb</li>
+</ul>
 
-SDL_Image: https://www.libsdl.org/projects/SDL_image/
 
-SDL_TTF: https://www.libsdl.org/projects/SDL_ttf/
 
-SDL_Mixer: https://www.libsdl.org/projects/SDL_mixer/
 
-SDL_Net: https://www.libsdl.org/projects/SDL_net/
 
-Glew: http://glew.sourceforge.net/
 
-stb: https://github.com/nothings/stb
+
+
+
+
+
