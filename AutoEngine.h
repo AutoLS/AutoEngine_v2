@@ -53,7 +53,7 @@ enum AE_ErrorCode
 	AE_ERR_GL_MAKE_CURRENT_CONTEXT_FAILURE,
 };
 
-bool32 AE_GlobalLastError = 0;
+AE_API bool32 AE_GlobalLastError = 0;
 void AE_SetLastError(AE_ErrorCode Code) { AE_GlobalLastError = Code; }
 bool32 AE_GetLastError() { return AE_GlobalLastError; }
 
