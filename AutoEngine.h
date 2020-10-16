@@ -30,6 +30,12 @@ typedef uint64_t uint64;
 
 #define AE_API extern "C" __declspec(dllexport)
 
+#if COMPILING_THE_DLL
+	#define AE_GLOBAL_VARIABLE extern "C" __declspec(dllexport)
+#else
+	#define AE_GLOBAL_VARIABLE extern "C" __declspec(dllimport)
+#endif
+
 enum AE_LibType
 {
 	AE_LIB_SDL = 0x1,
@@ -53,7 +59,7 @@ enum AE_ErrorCode
 	AE_ERR_GL_MAKE_CURRENT_CONTEXT_FAILURE,
 };
 
-AE_API bool32 AE_GlobalLastError = 0;
+AE_GLOBAL_VARIABLE bool32 AE_GlobalLastError;
 void AE_SetLastError(AE_ErrorCode Code) { AE_GlobalLastError = Code; }
 bool32 AE_GetLastError() { return AE_GlobalLastError; }
 
@@ -61,6 +67,7 @@ AE_API void AE_PrintLastError();
 AE_API bool32 AE_InitLib(uint8 Flags);
 
 #include "AE_OpenGL.cpp"
+AE_GLOBAL_VARIABLE bool32 AE_IsOpenGL;
 
 #include "AE_Math.h"
 #include "AE_Time.cpp"

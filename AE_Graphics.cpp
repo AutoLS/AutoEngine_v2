@@ -55,29 +55,31 @@ bool32 AE_InitGraphics(AE_Graphics* Graphics, char* Title, v2 Dim,
 	}
 	else
 	{
-		
-		SDL_GLContext GLContext = SDL_GL_CreateContext(Graphics->Window);
-		if(!GLContext)
+		if(AE_IsOpenGL)
 		{
-			//printf("Failed to create context: %s", SDL_GetError());
-			AE_SetLastError(AE_ERR_GL_CREATE_CONTEXT_FAILURE);
-			return AE_GetLastError();
-		}
-		else
-		{
-			if(SDL_GL_MakeCurrent(Graphics->Window, GLContext) != 0)
+			SDL_GLContext GLContext = SDL_GL_CreateContext(Graphics->Window);
+			if(!GLContext)
 			{
-				//printf("Failed to make current context: %s", SDL_GetError());
-				AE_SetLastError(AE_ERR_GL_MAKE_CURRENT_CONTEXT_FAILURE);
+				//printf("Failed to create context: %s", SDL_GetError());
+				AE_SetLastError(AE_ERR_GL_CREATE_CONTEXT_FAILURE);
 				return AE_GetLastError();
 			}
 			else
 			{
-				GLenum err = glewInit();
-				if (GLEW_OK != err)
+				if(SDL_GL_MakeCurrent(Graphics->Window, GLContext) != 0)
 				{
-					AE_SetLastError(AE_LIB_ERR_GLEW_LOAD_FAILURE);
+					//printf("Failed to make current context: %s", SDL_GetError());
+					AE_SetLastError(AE_ERR_GL_MAKE_CURRENT_CONTEXT_FAILURE);
 					return AE_GetLastError();
+				}
+				else
+				{
+					GLenum err = glewInit();
+					if (GLEW_OK != err)
+					{
+						AE_SetLastError(AE_LIB_ERR_GLEW_LOAD_FAILURE);
+						return AE_GetLastError();
+					}
 				}
 			}
 		}

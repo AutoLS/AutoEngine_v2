@@ -1,5 +1,8 @@
 #include "AutoEngine.h"
 
+bool32 AE_GlobalLastError;
+bool32 AE_IsOpenGL;
+
 void AE_PrintLastError()
 {
 	switch(AE_GlobalLastError)
@@ -129,6 +132,8 @@ bool32 AE_InitLib(uint8 Flags)
 	
 	if(Flags & AE_LIB_OPENGL)
 	{
+		AE_IsOpenGL = 1;
+		
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -187,7 +192,7 @@ bool AE_HandleEvents(AE_Core* Core)
 										  &Dim.y);
 						Graphics->WinRect = {V2(), V2(Dim)};
 						
-						glViewport(0, 0, Dim.x, Dim.y);
+						if(AE_IsOpenGL) glViewport(0, 0, Dim.x, Dim.y);
 					} break;
 				}
 			} break;
