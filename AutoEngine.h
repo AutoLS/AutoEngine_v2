@@ -87,4 +87,6 @@ struct AE_Core
 AE_API AE_Core AE_InitCore(AE_Graphics* Graphics);
 AE_API bool AE_HandleEvents(AE_Core* Core);
 
+#include "AE_UI.cpp"
+
 #endif

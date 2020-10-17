@@ -616,6 +616,16 @@ mat4 LookAt(v3 Pos, v3 Target, v3 Up)
 	return Rotation * Translation;
 }
 
+enum rect_position
+{
+	POSITION_TOP_LEFT,
+	POSITION_TOP_RIGHT,
+	POSITION_BOTTOM_LEFT,
+	POSITION_BOTTOM_RIGHT,
+	POSITION_CENTERED,
+	POSITION_CUSTOM
+};
+
 struct rect32
 {
 	v2 Pos;
@@ -626,6 +636,62 @@ inline rect32 Rect32(v2 Pos = {}, v2 Dim = {})
 {
 	rect32 Result = {Pos, Dim};
 	return Result;
+}
+
+void SetRect32ScreenSpace(rect32* src, rect32* dst, v2 Offset, 
+						  rect_position Position)
+{
+	switch(Position)
+	{
+		case POSITION_CENTERED:
+		{
+			src->Pos.x = dst->Pos.x + (dst->Dim.x*0.5f) + Offset.x - 
+						 (src->Dim.x*0.5f);
+			src->Pos.y = dst->Pos.y + (dst->Dim.y*0.5f) + Offset.y - 
+						 (src->Dim.y*0.5f);
+		} break;
+		case POSITION_TOP_RIGHT:
+		{
+			src->Pos.x = dst->Pos.x + dst->Dim.x + Offset.x - src->Dim.x;
+			src->Pos.y = dst->Pos.y + Offset.y;
+		} break;
+		case POSITION_TOP_LEFT:
+		{
+			src->Pos.x = dst->Pos.x + Offset.x;
+			src->Pos.y = dst->Pos.y + Offset.y;
+		} break;
+		case POSITION_BOTTOM_LEFT:
+		{
+			src->Pos.x = dst->Pos.x + Offset.x;
+			src->Pos.y = dst->Pos.y + dst->Dim.y + Offset.y - src->Dim.y;
+		} break;
+		case POSITION_BOTTOM_RIGHT:
+		{
+			src->Pos.x = dst->Pos.x + dst->Dim.x + Offset.x - src->Dim.x;
+			src->Pos.y = dst->Pos.y + dst->Dim.y + Offset.y - src->Dim.y;
+		} break;
+	}
+}
+
+bool IsPointInRect(v2 Point, rect32* Rect)
+{
+	if(Point.x < Rect->Pos.x)
+	{
+		return false;
+	}
+	if(Point.x > Rect->Pos.x + Rect->Dim.x)
+	{
+		return false;
+	}
+	if(Point.y < Rect->Pos.y)
+	{
+		return false;
+	}
+	if(Point.y > Rect->Pos.y + Rect->Dim.y)
+	{
+		return false;
+	}
+	return true;
 }
 
 inline uint8 RoundReal32ToUint8(real32 n)
@@ -645,6 +711,18 @@ inline SDL_Rect ToSDLRect(rect32* Rect)
 		RoundReal32ToInt32(Rect->Pos.y),
 		RoundReal32ToInt32(Rect->Dim.x),
 		RoundReal32ToInt32(Rect->Dim.y)
+	};
+	
+	return Ret;
+}
+
+inline SDL_Color ToSDLColor(v4 Src)
+{
+	SDL_Color Ret = {
+		RoundReal32ToUint8(Src.r * 255.0f),
+		RoundReal32ToUint8(Src.g * 255.0f),
+		RoundReal32ToUint8(Src.b * 255.0f),
+		RoundReal32ToUint8(Src.a * 255.0f)
 	};
 	
 	return Ret;

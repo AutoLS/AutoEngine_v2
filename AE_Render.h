@@ -24,6 +24,21 @@ AE_API AE_Texture
 AE_LoadTexture(AE_Graphics* Graphics, char* Path, real32 a = 1);
 AE_API void AE_DrawTexture(AE_Graphics* Graphics, AE_Texture* Texture, 
 						   rect32* Src, rect32* Dst);
+						   
+struct AE_RenderText
+{
+	TTF_Font* Font;
+	SDL_Texture* Texture;
+	v2i Dim;
+};
+
+AE_API AE_RenderText 
+AE_LoadRenderText(AE_Graphics* Graphics, v4 TextColor,
+				  TTF_Font* Font, const char* Text);
+AE_API void 
+AE_DrawRenderText(AE_Graphics* Graphics, AE_RenderText* RenderText, 
+				  rect32* Src, rect32* Dst);
+
 AE_API void AE_RenderClear(AE_Graphics* Graphics, v4 ClearColor);
 AE_API void AE_RenderShow(AE_Graphics* Graphics);
 

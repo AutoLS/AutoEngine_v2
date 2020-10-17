@@ -121,6 +121,56 @@ void AE_DrawTexture(AE_Graphics* Graphics, AE_Texture* Texture,
 	SDL_RenderCopy(Graphics->Renderer, Texture->Data, pSrc, pDst);
 }
 
+AE_RenderText AE_LoadRenderText(AE_Graphics* Graphics, v4 TextColor,
+								TTF_Font* Font, const char* Text)
+{
+	AE_RenderText Ret = {};
+	if(Text)
+	{
+		SDL_Color TextureColor = ToSDLColor(TextColor);
+		SDL_Surface* Surface = TTF_RenderText_Solid(Font, Text, TextureColor);
+		if(!Surface)
+		{
+			printf("Loading text failed! TTF_Error: %s\n", TTF_GetError());
+		}
+		else
+		{
+			Ret.Font = Font;
+			Ret.Dim.x = Surface->w;
+			Ret.Dim.y = Surface->h;
+			Ret.Texture = 
+			SDL_CreateTextureFromSurface(Graphics->Renderer, Surface);
+			if(!Ret.Texture)
+			{
+				printf("Creating texture failed! SDL_Error: %s\n", SDL_GetError());
+			}
+			else
+			{
+				SDL_SetTextureBlendMode(Ret.Texture, SDL_BLENDMODE_BLEND);
+				SDL_SetTextureAlphaMod(Ret.Texture, 255);
+			}
+		}
+		SDL_FreeSurface(Surface);
+	}
+	
+	return Ret;
+}
+
+void AE_DrawRenderText(AE_Graphics* Graphics, AE_RenderText* RenderText, 
+					   rect32* Src, rect32* Dst)
+{
+	SDL_Rect SrcRect = {}; 
+	SDL_Rect DstRect = {};
+	
+	if(Src) SrcRect = ToSDLRect(Src);
+	if(Dst) DstRect = ToSDLRect(Dst);
+	
+	SDL_Rect* pSrc = Src ? &SrcRect : 0;
+	SDL_Rect* pDst = Dst ? &DstRect : 0;
+	
+	SDL_RenderCopy(Graphics->Renderer, RenderText->Texture, pSrc, pDst);
+}
+
 void AE_RenderClear(AE_Graphics* Graphics, v4 ClearColor)
 {
 	uint8 r = RoundReal32ToUint8(ClearColor.r * 255.0f);
