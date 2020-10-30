@@ -52,9 +52,9 @@ void AE_SetAttribPointerGL(AE_GLShapeData* Shape, uint32 Location, int Size,
 }
 
 void AE_DrawShapeGL(uint32 Renderer, AE_GLShapeData* Shape, 
-						   v3 Pos, v3 Dim, 
-						   real32 Theta, v3 Axis, v4 Color, 
-						   uint32 Texture, bool Blend)
+				    v3 Pos, v3 Dim, 
+				    real32 Theta, v3 Axis, v4 Color, 
+				    uint32 Texture, bool Blend)
 {	
 	glUseProgram(Renderer);
 	AE_SetVec4GL(Renderer, "Color", Color);
@@ -93,6 +93,37 @@ void AE_DrawShapeGL(uint32 Renderer, AE_GLShapeData* Shape,
 	glDisable(GL_BLEND);
 	glBindVertexArray(0);
 	glUseProgram(0);
+}
+
+char* AE_LoadShaderSourceGL(char* Path)
+{
+	FILE* ShaderSourceFile = fopen(Path, "rb");
+	char* Buffer = 0;
+	long Length; 
+	
+	if(!ShaderSourceFile)
+	{
+		printf("File does not exist.\n");
+	}
+	else
+	{
+		fseek(ShaderSourceFile, 0L, SEEK_END);
+		Length = ftell(ShaderSourceFile);
+		fseek(ShaderSourceFile, 0L, SEEK_SET);
+		
+		Buffer = (char*)calloc(Length, sizeof(char));
+		if(Buffer)
+		{
+			fread(Buffer, sizeof(char), Length, ShaderSourceFile);
+		}
+		else
+		{
+			printf("Buffer is empty. Error.\n");
+		}
+	}
+	fclose(ShaderSourceFile);
+	
+	return Buffer;
 }
 
 uint32 
@@ -313,6 +344,18 @@ void AE_SetIntGL(uint32 Shader, char* Location, int Entry)
 {
 	glUseProgram(Shader);
 	glUniform1i(glGetUniformLocation(Shader, Location), Entry);
+}
+
+void AE_SetFloatGL(uint32 Shader, char* Location, real32 Entry)
+{
+	glUseProgram(Shader);
+	glUniform1f(glGetUniformLocation(Shader, Location), Entry);
+}
+
+void AE_SetVec2GL(uint32 Shader, char* Location, v2 A)
+{
+	glUseProgram(Shader);
+	glUniform2f(glGetUniformLocation(Shader, Location), A.x, A.y);
 }
 
 void AE_SetVec4GL(uint32 Shader, char* Location, v4 A)

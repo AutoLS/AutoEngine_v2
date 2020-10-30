@@ -42,29 +42,29 @@ AE_CreateTimer(real32 tEnd, bool Active)
 	return Ret;
 };
 
-inline void StartTimer(AE_Timer* Timer)
+inline void AE_StartTimer(AE_Timer* Timer)
 {
 	Timer->Complete = false;
 	Timer->Active = true;
 }
 
-inline void StopTimer(AE_Timer* Timer)
+inline void AE_StopTimer(AE_Timer* Timer)
 {
 	Timer->Active = false;
 }
 
-inline void ResetTimer(AE_Timer* Timer)
+inline void AE_ResetTimer(AE_Timer* Timer)
 {
 	Timer->t = 0;
 }
 
-void ResetAndStopTimer(AE_Timer* Timer)
+void AE_ResetAndStopTimer(AE_Timer* Timer)
 {
-	ResetTimer(Timer);
-	StopTimer(Timer);
+	AE_ResetTimer(Timer);
+	AE_StopTimer(Timer);
 }
 
-void ProcessTimer(AE_Timer* Timer, real32 t)
+void AE_ProcessTimer(AE_Timer* Timer, real32 t)
 {
 	if(Timer->Active)
 	{
@@ -72,7 +72,7 @@ void ProcessTimer(AE_Timer* Timer, real32 t)
 		if(Timer->t >= Timer->tEnd && Timer->tEnd > 0)
 		{
 			Timer->Complete = true;
-			ResetAndStopTimer(Timer);
+			AE_ResetAndStopTimer(Timer);
 		}
 		else if(Timer->tEnd == 0)
 		{

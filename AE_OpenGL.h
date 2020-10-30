@@ -34,8 +34,8 @@ struct AE_GLSimpleRenderer
 	AE_GLShapeData Triangle;
 };
 
-AE_API uint32 
-AE_CreateShaderGL(char* VertexShaderSource, char* FragmentShaderSource);
+AE_API char* AE_LoadShaderSourceGL(char* Path);
+AE_API uint32 AE_CreateShaderGL(char* VertexShaderSource, char* FragmentShaderSource);
 AE_API AE_GLSimpleRenderer AE_CreateSimpleRendererGL();
 
 AE_API uint32 
@@ -43,11 +43,13 @@ AE_LoadTextureGL(char* Path, bool Alpha = true, bool Flip = true, int n = 0);
 AE_API uint32 
 AE_LoadTextGL(TTF_Font* Font, const char* Text, v4 Color);
 
-void AE_SetIntGL(uint32 Shader, char* Location, int Entry);
-void AE_SetVec4GL(uint32 Shader, char* Location, v4 A);
-void AE_SetMat4GL(uint32 Shader, char* Location, mat4 A, 
+AE_API void AE_SetIntGL(uint32 Shader, char* Location, int Entry);
+AE_API void AE_SetFloatGL(uint32 Shader, char* Location, real32 Entry);
+AE_API void AE_SetVec2GL(uint32 Shader, char* Location, v2 A);
+AE_API void AE_SetVec4GL(uint32 Shader, char* Location, v4 A);
+AE_API void AE_SetMat4GL(uint32 Shader, char* Location, mat4 A, 
 				  GLenum IsTranspose = GL_TRUE);
-void AE_SetViewProjectionGL(uint32 Renderer, mat4 Projection, mat4 View);
+AE_API void AE_SetViewProjectionGL(uint32 Renderer, mat4 Projection, mat4 View);
 
 AE_API void AE_DrawShapeGL(uint32 Renderer, AE_GLShapeData* Shape, 
 						   v3 Pos, v3 Dim, 

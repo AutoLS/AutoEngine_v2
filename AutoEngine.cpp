@@ -1,7 +1,10 @@
 #include "AutoEngine.h"
 
+//NOTE: Global variables
 bool32 AE_GlobalLastError;
 bool32 AE_IsOpenGL;
+
+AE_UIState AE_GlobalUIState = {};
 
 void AE_PrintLastError()
 {
@@ -461,6 +464,20 @@ bool AE_HandleEvents(AE_Core* Core)
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
+				switch (Event->type)
+				{
+					case SDL_MOUSEBUTTONDOWN:
+					{
+						if(Event->button.button == SDL_BUTTON_LEFT)
+							AE_GlobalUIState.MouseDown = 1;
+					} break;
+					case SDL_MOUSEBUTTONUP:
+					{
+						if(Event->button.button == SDL_BUTTON_LEFT)
+							AE_GlobalUIState.MouseDown = 0;
+					} break;
+				}
+				
 				bool IsDown = (Event->button.state == SDL_PRESSED);
 				bool WasDown = false;
 				if(Event->button.state == SDL_RELEASED)
@@ -476,7 +493,8 @@ bool AE_HandleEvents(AE_Core* Core)
 				{
 					case SDL_BUTTON_LEFT:
 					{
-						AE_ProcessKeyPress(&Input->Mouse.Keys[AE_MB_LEFT], IsDown, WasDown);
+						AE_ProcessKeyPress(&Input->Mouse.Keys[AE_MB_LEFT], 
+											IsDown, WasDown);
 					} break;
 					case SDL_BUTTON_RIGHT:
 					{

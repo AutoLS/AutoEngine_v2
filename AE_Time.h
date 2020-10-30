@@ -34,10 +34,10 @@ struct AE_Timer
 
 AE_API inline AE_Timer 
 AE_CreateTimer(real32 tEnd, bool Active);
-AE_API inline void StartTimer(AE_Timer* Timer);
-AE_API inline void StopTimer(AE_Timer* Timer);
-AE_API inline void ResetTimer(AE_Timer* Timer);
-AE_API void ResetAndStopTimer(AE_Timer* Timer);
-AE_API void ProcessTimer(AE_Timer* Timer, real32 t);
+AE_API inline void AE_StartTimer(AE_Timer* Timer);
+AE_API inline void AE_StopTimer(AE_Timer* Timer);
+AE_API inline void AE_ResetTimer(AE_Timer* Timer);
+AE_API void AE_ResetAndStopTimer(AE_Timer* Timer);
+AE_API void AE_ProcessTimer(AE_Timer* Timer, real32 t);
 
 #endif
