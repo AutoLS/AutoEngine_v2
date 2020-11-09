@@ -1,6 +1,6 @@
 # AutoEngine_v2
 
-I decided to rewrite my game engine because my old one is a bit too messy. It is currently still in early development so there're not a lot of features.
+I decided to rewrite my game engine because my old one is a bit messy. It is currently still in early development so there're not a lot of features.
 
 This engine uses SDL, Glew, and stb libraries. You can get them here:
 
