@@ -4,7 +4,7 @@
 bool32 AE_GlobalLastError;
 bool32 AE_IsOpenGL;
 
-AE_UIState AE_GlobalUIState = {};
+AE_UIState AE_GlobalUIState;
 
 void AE_PrintLastError()
 {

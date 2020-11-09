@@ -1,6 +1,8 @@
 #ifndef AE_MATH
 #define AE_MATH
 
+#include <float.h>
+
 #define PI 3.1415926f
 
 real32 Cos(real32 Theta)
@@ -154,6 +156,13 @@ inline real32 Length(v2 A)
 	return Result;
 }
 
+inline v2 Rotate2D(v2 A, real32 Theta)
+{
+	v2 Result = V2(Cos(Theta)*A.x - Sin(Theta)*A.y, 
+				   Sin(Theta)*A.x + Cos(Theta)*A.y);
+	return Result;
+}
+
 inline v2 Perp_v2(v2 A)
 {
 	v2 Result = {-A.y, A.x};
@@ -163,6 +172,18 @@ inline v2 Perp_v2(v2 A)
 inline real32 Dot(v2 A, v2 B)
 {
 	real32 Result = {A.x*B.x + A.y*B.y};
+	return Result;
+}
+
+inline v2 TripleProduct(v2 A, v2 B, v2 C)
+{
+	v2 Result;
+	
+	real32 ac = Dot(A, C);
+	real32 bc = Dot(B, C);
+	
+	Result = V2(B.x * ac - A.x * bc, B.y * ac - A.y * bc);
+	
 	return Result;
 }
 
@@ -702,6 +723,11 @@ inline uint8 RoundReal32ToUint8(real32 n)
 inline int32 RoundReal32ToInt32(real32 n)
 {
 	return (int32)(n + 0.5f);
+}
+
+inline real32 Square(real32 x)
+{
+	return x * x;
 }
 
 inline SDL_Rect ToSDLRect(rect32* Rect)

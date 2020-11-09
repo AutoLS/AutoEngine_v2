@@ -74,6 +74,7 @@ AE_GLOBAL_VARIABLE bool32 AE_IsOpenGL;
 #include "AE_Graphics.cpp"
 #include "AE_Render.cpp"
 #include "AE_Input.cpp"
+#include "AE_Collision.cpp"
 
 struct AE_Core
 {
